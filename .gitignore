@@ -12,3 +12,9 @@ docs/
 
 # Dotenv file
 .env
+
+# Foundry build and cache directories
+lib/
+artifacts/
+# IDE and other unrelated files
+.idea/

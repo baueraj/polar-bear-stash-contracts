@@ -12,12 +12,16 @@ contract PolarBearStash is ERC20, ReentrancyGuard {
 
     uint256 public constant INITIAL_SUPPLY = 1_000_000 * 1 ether;
     uint256 public constant BURN_PERCENTAGE = 1; // 1%
+    uint256 public constant REWARD = 10 * 1 ether; // 10 tokens as a small reward
+    uint256 public constant REWARD_INTERVAL = 30 minutes;
+    uint256 public constant REWARD_DURATION = 7 days;
     address public constant BURN_ADDRESS = 0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF;
 
     mapping(address => uint256) private lastTransfer;
+    mapping(address => uint256) private rewardStart;
     EnumerableSet.AddressSet private holders;
 
-    constructor() ERC20("ColdStash", "COLD"){
+    constructor() ERC20("PolarBearStash", "COLD") {
         _mint(msg.sender, INITIAL_SUPPLY);
     }
 
@@ -26,7 +30,16 @@ contract PolarBearStash is ERC20, ReentrancyGuard {
         super._transfer(sender, recipient, amount - burnAmount);
         super._transfer(sender, BURN_ADDRESS, burnAmount);
 
+        if (rewardStart[sender] == 0) {
+            rewardStart[sender] = block.timestamp;
+        }
+        if (rewardStart[recipient] == 0) {
+            rewardStart[recipient] = block.timestamp;
+        }
+
         _rewardPolarBearStash(sender);
+        _rewardPolarBearStash(recipient);
+
         lastTransfer[sender] = block.timestamp;
         lastTransfer[recipient] = block.timestamp;
 
@@ -35,16 +48,10 @@ contract PolarBearStash is ERC20, ReentrancyGuard {
     }
 
     function _rewardPolarBearStash(address holder) private {
-        if (block.timestamp - lastTransfer[holder] > 30 days) {
-            uint256 reward = calculateReward(holder);
-            _mint(holder, reward);
+        if (block.timestamp - lastTransfer[holder] >= REWARD_INTERVAL &&
+            block.timestamp - rewardStart[holder] <= REWARD_DURATION) {
+            _mint(holder, REWARD);
+            lastTransfer[holder] = block.timestamp;
         }
-    }
-
-    function calculateReward(address holder) public view returns (uint256) {
-        // Implement reward calculation logic based on token holding duration and amount
-        // Simplified example: 1 token reward for each week of holding, capped at a certain max
-        uint256 heldWeeks = (block.timestamp - lastTransfer[holder]) / 7 days;
-        return heldWeeks * 1 ether; // Simplified reward calculation
     }
 }
