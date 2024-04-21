@@ -18,3 +18,4 @@ lib/
 artifacts/
 # IDE and other unrelated files
 .idea/
+.github/
