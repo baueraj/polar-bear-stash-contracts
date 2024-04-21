@@ -1,7 +1,12 @@
 {
   "name": "polar-bear-stash-contracts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Smart contracts for the PolarBearStash (COLD) ERC20 token on the Berachain (test)chain.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baueraj/polar-bear-stash-contracts"
+  },
+  "homepage": "https://github.com/baueraj/polar-bear-stash-contracts",
   "main": "index.js",
   "files": [
     "lib/",
