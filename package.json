@@ -1,18 +1,22 @@
 {
-  "name": "polar",
-  "version": "1.0.0",
-  "description": "**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**",
+  "name": "polar-bear-stash-contracts",
+  "version": "0.1.0",
+  "description": "Smart contracts for the PolarBearStash (COLD) ERC20 token on the Berachain (test)chain.",
   "main": "index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
+  "files": [
+    "lib/",
+    "src/",
+    "test/",
+    "out/",
+    "foundry.toml"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "forge build",
+    "test": "forge test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["ethereum", "smart-contract", "ERC20", "PolarBearStash", "Berachain"],
+  "author": "the_orthanc_tower",
+  "license": "MIT",
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2"
   }
